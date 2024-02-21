@@ -11,18 +11,18 @@
 
 This document outlines the technical framework for the algorithm that generates the FEARS index, a metric for investor sentiment that offers an alternative to conventional assessment methods such as surveys or proxies. Starting from the work of Da et al. (2015), the FEARS index tackles the issues both firms and researchers encounter with investor sentiment's impact on asset mispricing and the issues involved in its measurement.
 
-The documentation includes a **Usage and Troubleshooting** section, which mentions that best practices on how to make the various algorithms work. At the end of the documentation is possible to find contact information. Launched as part of the Honours Programme at the Utrecht School of Economics (USE), this initiative strives to duplicates the findings of "The Sum of all FEARS: Investor Sentiment and Asset Prices" (Da et al., 2015), aiming to extend the analysis beyond its initial period of 2004-2011. The primary goal is to engineer an algorithm that autonomously calculates the FEARS index daily, thereby broadening the arsenal of tools for measuring investor and household sentiment.
+The documentation includes a **Usage and Troubleshooting** section, which mentions best practices on how to make the various algorithms work. At the end of the documentation is possible to find contact information. Launched as part of the Honours Programme at the Utrecht School of Economics (USE), this initiative strives to duplicate the findings of "The Sum of all FEARS: Investor Sentiment and Asset Prices" (Da et al., 2015), aiming to extend the analysis beyond its initial period of 2004-2011. The primary goal is to engineer an algorithm that autonomously calculates the FEARS index daily, thereby broadening the arsenal of tools for measuring investor and household sentiment.
 
 A comprehensive report detailing the theoretical foundation of this code and various observations, titled `Sentiment Metrics in Finance - Report.pdf`, is available in the repository. This ensures access to contextual information. It's crucial to acknowledge that this report was composed before the complete acquisition of data necessary for the index, thereby focusing on insights from preliminary testing of the FEARS index.
 
 ## II. installations and Requirements
 
-install the requirements by running the following line in your terminal. Use pip3 instead of pip is you are a Mac user. 
+install the requirements by running the following line in your terminal. Use pip3 instead of pip if you are a Mac user. 
 ```installation
 pip install -r requirements.txt
 ```
 **Other Requirements**
-- Stable internet connection. The code still works in case of a short lack of internet connection (i.e. a modem restart). However, the code has not been tested in case of prolonged lacks in internet connection.
+- Stable internet connection. The code still works in case of a short lack of internet connection (i.e. a modem restart). However, the code has not been tested in case of prolonged lack in internet connection.
 - The latest version of your favourite Python interpreter.
 - Python 3.9 or more recent.
 
@@ -34,7 +34,7 @@ This section has been divided into **Quick Start**, to be read to ensure proper 
 
 Before even starting to use Python, it is important to select the list of primitive keywords from the `inquirerbasic.xls` file. The file can be downloaded from the [Harvard IV-4 Dictionary and the Lasswell Value Dictionary](https://inquirer.sites.fas.harvard.edu/). Select an Excel Pivot Table when they are marked with `@Econ` or `ECON`, and additionally are also marked with `Ngtv`, `Negativ`, `Positiv`, or `Pstv`.
 
-### 1. Keywords_Gather.py (`test_55`)
+### 1. Keywords_Gather.py
 
 This script needs to be used first as it gathers the list of the top 10 related queries per each primitive keyword.
 
@@ -47,7 +47,7 @@ This script needs to be used first as it gathers the list of the top 10 related 
   ```
 - Set at line 47 the path to the file containing the list of top 10 related queries. The file name must be `final_keywords.csv`
 
-### 2. Adj_Interest_vol.py (test_62)
+### 2. Adj_Interest_vol.py
 
 This is the second algorithm that needs to be used code, and it gathers the adjusted search volume for each of the Top 10 related queries.
 
@@ -62,19 +62,19 @@ This is the second algorithm that needs to be used code, and it gathers the adju
  ```commandline
     final_keywords_df = pd.read_csv('path/to/final_keywords.csv')
   ```
-- The Search Volume is saved in different csv file for different keywords. Gather all the csv file manually in a new single folder.
+- The Search Volume is saved in different csv files for different keywords. Gather all the csv files manually in a new single folder.
 
-NB: the execution of this code is rather lengthy. While using a single IP the script was able to group daily search volume for just above 400 words, for the 8 years, in just above three weeks, which means that it is possible to build an up-to-date FEARS index in just above six months. The process might accelerate if used in combination with  
+NB: the execution of this code is rather lengthy. While using a single IP the script was able to group daily search volume for just above 400 words, for the 8 years, in just above three weeks, which means that it is possible to build an up-to-date FEARS index in just over six months. The process might accelerate if used in combination with  
 
-### 3. FEARS_Stat25.py (test69), FEARS_Stat30.py (test68), FEARS_Stat35.py (test70)
+### 3. FEARS_Stat25.py, FEARS_Stat30.py, FEARS_Stat35.py
 
-- At line 41 set the same folder path where you have gathered all the `.csv` files containing the interest over time for teh various keywords. The previous script should save the files in the same folder of the script. In theory the scrit should work if you assign to this folder the same path of the script, however we strongly advise to move al the `.csv` files in a new folder.
+- At line 41 set the same folder path where you have gathered all the `.csv` files containing the interest over time for the various keywords. The previous script should save the files in the same folder as the script. In theory, the script should work if you assign to this folder the same path as the script, however, we strongly advise moving all the `.csv` files to a new folder.
 ```python
 folder_path = '/path/to/the/csv/folder'
 ```
 
-- since this documentation has been written before the search volume of every keyword has been gathered, the algorithm still misses a key step. At line 67 a User interface should be integrated in the code which asks the user which keywords should be kept. This step is import to remove all the queries tha are not related to economic and nor to finance (i.e. if there are the words ‘economic depression’ and ‘postpartum depression’, only the former will be kept). The authors in the original paper are left with a list of 118 queries after starting from 622 queries that have at least 1000 observations of daily data. However, these numbers might change since Google's algorithms also changed in the meanwhile and this might have lead to a slightly different list of related queries.
-- In this script there might be an error given at line 20 (not expected to happen frequently). This is caused by the fact that the algorithm uses the date column from the 'data_401k' data frame when merging all the `.csv` files. Therefore, if this keyword is not present among the related queries, its dataframe will noe be present either. To fix this error is possible to switch 'data_401k' with any other related query that has been gathered.
+- since this documentation has been written before the search volume of every keyword has been gathered, the algorithm still misses a key step. At line 67 a User interface should be integrated in the code which asks the user which keywords should be kept. This step is important to remove all the queries that are not related to economics or to finance (i.e. if there are the words ‘economic depression’ and ‘postpartum depression’, only the former will be kept). The authors in the original paper are left with a list of 118 queries after starting from 622 queries that have at least 1000 observations of daily data. However, these numbers might change since Google's algorithms also changed in the meanwhile and this might have led to a slightly different list of related queries.
+- In this script, there might be an error given at line 20 (not expected to happen frequently). This is caused by the fact that the algorithm uses the date column from the 'data_401k' data frame when merging all the `.csv` files. Therefore, if this keyword is not present among the related queries, its data frame will not be present either. To fix this error is possible to switch 'data_401k' with any other related query that has been gathered.
 ```commandline
     data_401k_path = os.path.join(folder_path, 'data_401k.csv')
    ```
@@ -87,7 +87,7 @@ As you might have noticed in this section of the **Usage and TroubleShooting** w
 ```commandline
     smallest_values = average_t_stats_df.iloc[:, n].nsmallest(30)
 ```
-This command line comes from `FEARS_Stat30.py`, where from each rolling regressions **30** keywords with the most negative t-statistics are selected. In `FEARS_Stat25.py` **25** keywords with the most negative t-statistics are selected. In `FEARS_Stat35.py` **35** keywords with the most negative t-statistics are selected. This leads to slightly different script and different calculations of the FEARS index. More information on this can be found in the original paper of Da et al. (2015), or in the `Sentiment Metrics in Finance - Report.pdf` file.
+This command line comes from `FEARS_Stat30.py`, where from each rolling regression **30** keywords with the most negative t-statistics are selected. In `FEARS_Stat25.py` **25** keywords with the most negative t-statistics are selected. In `FEARS_Stat35.py` **35** keywords with the most negative t-statistics are selected. This leads to slightly different scripts and different calculations of the FEARS index. More information on this can be found in the original paper of Da et al. (2015), or in the `Sentiment Metrics in Finance - Report.pdf` file.
 The three different algorithms also return three different output `.xlsx` files with different FEARS values. The names of the output files are reported in the table below
 
 **Algorithm and output file names**
@@ -102,7 +102,7 @@ NB: the FEARS index can be found in the columns `row_average25`, `row_average30`
 
 ### 4. generate_markdown_table.py
 
-This is the last script of needed for a proper engineering of the FEARS index. It compares the main statistical parameters of the FEARS index built by Da et al. with the on constructed with the previous three scripts.
+This is the last script needed for the proper engineering of the FEARS index. It compares the main statistical parameters of the FEARS index built by Da et al. with the on constructed with the previous three scripts.
 - to make the code work it is necessary to assign to the variables `excel_file1` the path of `merged_dataframe_with_first_column25.xlsx`, to `excel_file2` the path of `merged_dataframe_with_first_column30.xlsx`, and to `excel_file3` the path of `merged_dataframe_with_first_column35.xlsx`, as reported in the following code chunk
 ```commandline
 excel_file1 = '/path/to/merged_dataframe_with_first_column25.xlsx'
