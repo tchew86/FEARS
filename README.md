@@ -101,6 +101,8 @@ The three different algorithms also return three different output `.xlsx` files 
 
 NB: the FEARS index can be found in the columns `row_average25`, `row_average30`, `row_average35` (depending on how many keywords are selected per rolling regression) of each output file. The column `smoothed_row_average` of each output data frame does not report the actual FEARS index, but an average of the index for multiple days. The purpose of the smoothed column is to make the graph of the FEARS index more readable by taking the average FEARS values for multiple days. The number of days that are considered to calculate a single data point can be regulated through a slider at the bottom of the plotted graph.  
 
+- During the execution, the algorithms will print 15 lists named `30_smallests_{n}` with n(0:14) even though it might be selecting 25 or 35 keywords. Inside these lists, it is possible to find the keywords that have been selected based on each rolling regression. Consult `Sentiment Metrics in Finance - Report.pdf` for the theoretical background.
+
 ### 4. generate_markdown_table.py
 
 This is the last script needed for the proper engineering of the FEARS index. It compares the main statistical parameters of the FEARS index built by Da et al. with the on constructed with the previous three scripts.
