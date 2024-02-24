@@ -46,6 +46,8 @@ This script needs to be used first as it gathers the list of the top 10 related 
   tester_folder_path = "path/to/your/folder"
   ```
 - Set at line 47 the path to the file containing the list of top 10 related queries. The file name must be `final_keywords.csv`
+- Select with a Pivot table only the queries that have economic relevance. (i.e. if there are the words ‘economic depression’ and ‘postpartum depression’, only the former will be kept). Save These Keywords in a new file named `Broad_economic_Keywords.csv`. This process is highly arbitrary since it is possible to select every keyword that might be related to economic output (i.e. expensive cars, luxury houses, etc.), or only those related to investor sentiment (i.e. recession, chapter 11, inflation, etc.). In this repository is possible to find the file `Broad_economic_Keywords.csv` containing the queries with a broad economic and financial meaning that we selected.
+
 
 ### 2. Adj_Interest_vol.py
 
@@ -58,9 +60,9 @@ This is the second algorithm that needs to be used code, and it gathers the adju
   stop_year = 2011
   stop_month = 12
   ```
-- Set at line 163 the path of the `final_keywords.csv` file that has been created as output by the previous algorithm.
+- Set at line 163 the path of the `Broad_economic_Keywords.csv` file that has been created as output by the previous algorithm.
  ```commandline
-    final_keywords_df = pd.read_csv('path/to/final_keywords.csv')
+    final_keywords_df = pd.read_csv('path/to/Broad_economic_Keywords.csv`)
   ```
 - The Search Volume is saved in different csv files for different keywords. Gather all the csv files manually in a new single folder.
 
@@ -73,7 +75,6 @@ NB: the execution of this code is rather lengthy. While using a single IP the sc
 folder_path = '/path/to/the/csv/folder'
 ```
 
-- since this documentation has been written before the search volume of every keyword has been gathered, the algorithm still misses a key step. At line 67 a User interface should be integrated in the code which asks the user which keywords should be kept. This step is important to remove all the queries that are not related to economics or to finance (i.e. if there are the words ‘economic depression’ and ‘postpartum depression’, only the former will be kept). The authors in the original paper are left with a list of 118 queries after starting from 622 queries that have at least 1000 observations of daily data. However, these numbers might change since Google's algorithms also changed in the meanwhile and this might have led to a slightly different list of related queries.
 - In this script, there might be an error given at line 20 (not expected to happen frequently). This is caused by the fact that the algorithm uses the date column from the 'data_401k' data frame when merging all the `.csv` files. Therefore, if this keyword is not present among the related queries, its data frame will not be present either. To fix this error is possible to switch 'data_401k' with any other related query that has been gathered.
 ```commandline
     data_401k_path = os.path.join(folder_path, 'data_401k.csv')
@@ -98,7 +99,7 @@ The three different algorithms also return three different output `.xlsx` files 
 | FEARS_Stat30.py | 30                                      | row_average30      | merged_dataframe_with_first_column30.xlsx |
 | FEARS_Stat35.py | 35                                      | row_average35      | merged_dataframe_with_first_column35.xlsx |
 
-NB: the FEARS index can be found in the columns `row_average25`, `row_average30`, `row_average35` (depending on how many keywords are selected per rolling regression) of each output file. The column `smoothed_row_average` of each output data frame do not report the actual FEARS index, but an average of the index for multiple days. The purpose of the smoothed column is to make the graph of the FEARS index more readable by taking the average FEARS values for multiple days. The number of days that are considered to calculate a single data point can be regulated through a slider at the bottom of the plotted graph.  
+NB: the FEARS index can be found in the columns `row_average25`, `row_average30`, `row_average35` (depending on how many keywords are selected per rolling regression) of each output file. The column `smoothed_row_average` of each output data frame does not report the actual FEARS index, but an average of the index for multiple days. The purpose of the smoothed column is to make the graph of the FEARS index more readable by taking the average FEARS values for multiple days. The number of days that are considered to calculate a single data point can be regulated through a slider at the bottom of the plotted graph.  
 
 ### 4. generate_markdown_table.py
 
@@ -109,7 +110,17 @@ excel_file1 = '/path/to/merged_dataframe_with_first_column25.xlsx'
 excel_file2 = '/path/to/merged_dataframe_with_first_column30.xlsx'
 excel_file3 = '/path/to/merged_dataframe_with_first_column35.xlsx'
 ```
-- The data frame of the original paper is retrieved through a web link.
+- The data frame of the original paper is retrieved through a web link. However, we have also uploaded it as `Original_Data.csv`.
+- This algorithm also generates an Excel Table which is useful to visualise the original and new FEARS 30 index. Between lines 65 and 73 4 additional columns are created by taking the rolling average and smoothing the index to make it more comprehensible. It is possible to regulate the size of the rolling window.
+```commandline
+new_df['ORIGINAL FEARS 30 - 60 days smoothing'] = original_df['fears30'].rolling(window=60).mean()
+
+new_df['NEW FEARS 30 - 60 days smoothing'] = df2['row_average30'].rolling(window=60).mean()
+
+new_df['ORIGINAL FEARS 30 - 120 days smoothing'] = original_df['fears30'].rolling(window=120).mean()
+
+new_df['NEW FEARS 30 - 120 days smoothing'] = df2['row_average30'].rolling(window=120).mean()
+```
 
 Below is possible to find the **comparison statistics** tables of the FEARS index from the original paper and the one calculated with the previous algorithms. The analysis should be taken with caution as it has not been possible to require information on all keywords, yet. `generate_markdown_table.py` will have to be run another time when information on every related query will be gathered.
 
@@ -118,38 +129,41 @@ Below is possible to find the **comparison statistics** tables of the FEARS inde
 | Statistic | Original Dataset (fears25) | Compare Dataset (row_average25) |
 |-----------|-----------|-----------|
 | Mean | 0.00 | -0.01 |
-| Std | 0.37 | 0.22 |
-| Min | -2.83 | -1.13 |
-| 25% | -0.17 | -0.15 |
-| 50% | -0.01 | -0.02 |
-| 75% | 0.16 | 0.11 |
-| Max | 3.57 | 1.29 |
-| Skewness | 1.78 | 0.18 |
-| Kurtosis | 19.88 | 1.53 |
+| Std | 0.37 | 0.25 |
+| Min | -2.83 | -1.06 |
+| 25% | -0.17 | -0.17 |
+| 50% | -0.01 | -0.04 |
+| 75% | 0.16 | 0.13 |
+| Max | 3.57 | 1.34 |
+| Skewness | 1.78 | 0.53 |
+| Kurtosis | 19.88 | 1.26 |
+| Correlation Coefficient | | 0.02 |
 
 | Statistic | Original Dataset (fears30) | Compare Dataset (row_average30) |
 |-----------|-----------|-----------|
 | Mean | 0.00 | -0.01 |
-| Std | 0.35 | 0.21 |
-| Min | -2.55 | -1.08 |
-| 25% | -0.15 | -0.14 |
-| 50% | -0.02 | -0.02 |
-| 75% | 0.13 | 0.11 |
-| Max | 3.19 | 1.21 |
-| Skewness | 1.87 | 0.17 |
-| Kurtosis | 18.31 | 1.84 |
+| Std | 0.35 | 0.24 |
+| Min | -2.55 | -1.17 |
+| 25% | -0.15 | -0.16 |
+| 50% | -0.02 | -0.04 |
+| 75% | 0.13 | 0.12 |
+| Max | 3.19 | 1.27 |
+| Skewness | 1.87 | 0.58 |
+| Kurtosis | 18.31 | 1.54 |
+| Correlation Coefficient | | 0.03 |
 
 | Statistic | Original Dataset (fears35) | Compare Dataset (row_average35) |
 |-----------|-----------|-----------|
 | Mean | 0.00 | -0.01 |
-| Std | 0.34 | 0.20 |
-| Min | -2.29 | -1.28 |
-| 25% | -0.15 | -0.14 |
-| 50% | -0.02 | -0.02 |
+| Std | 0.34 | 0.24 |
+| Min | -2.29 | -1.16 |
+| 25% | -0.15 | -0.16 |
+| 50% | -0.02 | -0.04 |
 | 75% | 0.13 | 0.11 |
-| Max | 2.92 | 1.29 |
-| Skewness | 1.92 | 0.26 |
-| Kurtosis | 17.57 | 2.63 |
+| Max | 2.92 | 1.27 |
+| Skewness | 1.92 | 0.59 |
+| Kurtosis | 17.57 | 1.63 |
+| Correlation Coefficient | | 0.02 |
 
 ## b) Troubleshooting
 
