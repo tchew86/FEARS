@@ -208,6 +208,47 @@ Below is possible to find the **comparison statistics** tables of the FEARS inde
 | Kurtosis | 17.57 | 1.56 |
 | Correlation Coefficient | | 0.03 |
 
+#### comparison statistics (after gathering data on 970 words, of which 960 are used because 10 words do not have scaled data):
+
+| Statistic | Original Dataset (fears25) | Compare Dataset (row_average25) |
+|-----------|-----------|-----------|
+| Mean | 0.00 | -0.01 |
+| Std | 0.37 | 0.24 |
+| Min | -2.83 | -1.01 |
+| 25% | -0.17 | -0.15 |
+| 50% | -0.01 | -0.02 |
+| 75% | 0.16 | 0.13 |
+| Max | 3.57 | 1.42 |
+| Skewness | 1.78 | 0.24 |
+| Kurtosis | 19.88 | 1.27 |
+| Correlation Coefficient | | 0.04 |
+
+| Statistic | Original Dataset (fears30) | Compare Dataset (row_average30) |
+|-----------|-----------|-----------|
+| Mean | 0.00 | -0.01 |
+| Std | 0.35 | 0.23 |
+| Min | -2.55 | -1.03 |
+| 25% | -0.15 | -0.15 |
+| 50% | -0.02 | -0.02 |
+| 75% | 0.13 | 0.13 |
+| Max | 3.19 | 1.35 |
+| Skewness | 1.87 | 0.35 |
+| Kurtosis | 18.31 | 1.62 |
+| Correlation Coefficient | | 0.04 |
+
+| Statistic | Original Dataset (fears35) | Compare Dataset (row_average35) |
+|-----------|-----------|-----------|
+| Mean | 0.00 | -0.01 |
+| Std | 0.34 | 0.22 |
+| Min | -2.29 | -0.88 |
+| 25% | -0.15 | -0.15 |
+| 50% | -0.02 | -0.02 |
+| 75% | 0.13 | 0.11 |
+| Max | 2.92 | 1.25 |
+| Skewness | 1.92 | 0.43 |
+| Kurtosis | 17.57 | 1.56 |
+| Correlation Coefficient | | 0.03 |
+
 ## b) Troubleshooting
 
 If you encounter issues while running the code, particularly with its performance or execution, please consider the following potential solutions:
