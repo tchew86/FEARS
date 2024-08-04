@@ -249,6 +249,21 @@ Below is possible to find the **comparison statistics** tables of the FEARS inde
 | Kurtosis | 17.57 | 1.56 |
 | Correlation Coefficient | | 0.03 |
 
+### OLS regression results
+
+S&P500 return is the dependent variable. Independent variables are FEARS Index (30 keywords selected, variable name 'row_average30),
+ADS Index (variable name 'ADS_Index'), VIX Index (variable name 'OPEN'), daily difference of EPU Index (variable name 'change_index). Every independent variable is both contemporaneous and up to five lags.
+
+<img width="628" alt="Screenshot 2024-08-04 at 14 38 21" src="https://github.com/user-attachments/assets/0db3f7a0-4211-45d6-8abd-a2e2f88efc4c">                              
+
+<img width="697" alt="Screenshot 2024-08-04 at 14 37 50" src="https://github.com/user-attachments/assets/a14ddf0f-cd4b-4003-beee-f1d93a254dd9">
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 6.61e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+
 ## b) Troubleshooting
 
 If you encounter issues while running the code, particularly with its performance or execution, please consider the following potential solutions:
