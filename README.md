@@ -263,6 +263,8 @@ Notes:
 [2] The condition number is large, 6.61e+03. This might indicate that there are
 strong multicollinearity or other numerical problems.
 
+The file used to calculate the regression is uploaded as `regressor.py` however we strongly advise being careful with this file as it has presented various bugs while adding and cleaning the data, therefore it might not work properly. 
+
 
 ## b) Troubleshooting
 
