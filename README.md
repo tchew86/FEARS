@@ -254,9 +254,11 @@ Below is possible to find the **comparison statistics** tables of the FEARS inde
 S&P500 return is the dependent variable. Independent variables are FEARS Index (30 keywords selected, variable name 'row_average30),
 ADS Index (variable name 'ADS_Index'), VIX Index (variable name 'OPEN'), daily difference of EPU Index (variable name 'change_index). Every independent variable is both contemporaneous and up to five lags.
 
-<img width="628" alt="Screenshot 2024-08-04 at 14 38 21" src="https://github.com/user-attachments/assets/0db3f7a0-4211-45d6-8abd-a2e2f88efc4c">                              
+<img width="624" alt="Screenshot 2024-08-04 at 14 59 03" src="https://github.com/user-attachments/assets/a69b7dde-0b5c-4f0d-a2d6-0927f86c96c9">
 
-<img width="697" alt="Screenshot 2024-08-04 at 14 37 50" src="https://github.com/user-attachments/assets/a14ddf0f-cd4b-4003-beee-f1d93a254dd9">
+
+<img width="696" alt="Screenshot 2024-08-04 at 14 52 51" src="https://github.com/user-attachments/assets/bdebb9a4-44eb-4240-9ade-d716d211eb09">
+
 
 Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
